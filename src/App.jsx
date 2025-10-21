@@ -1,5 +1,29 @@
 import { WeaverButton } from './components/weaver/Button';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { 
+  Zap, 
+  Shield, 
+  Palette, 
+  Copy, 
+  Clock, 
+  ChevronRight, 
+  Sun, 
+  Moon, 
+  Monitor,
+  Check,
+  ArrowLeft,
+  ArrowRight,
+  Plus,
+  X,
+  Edit,
+  Trash2,
+  Save,
+  Download,
+  Github,
+  ExternalLink,
+  Menu,
+  X as CloseIcon
+} from 'lucide-react';
 
 export default function App() {
   const [currentPage, setCurrentPage] = useState('home');
@@ -8,6 +32,10 @@ export default function App() {
   const [selectedState, setSelectedState] = useState('default');
   const [isRTL, setIsRTL] = useState(false);
   const [showIcons, setShowIcons] = useState(true);
+  const [theme, setTheme] = useState('light');
+  const [colorTheme, setColorTheme] = useState('blue');
+  const [showThemeMenu, setShowThemeMenu] = useState(false);
+  const [showMobileMenu, setShowMobileMenu] = useState(false);
 
   const buttonStyles = [
     { value: 'primary', label: 'Primary', description: 'Main action button' },
@@ -45,6 +73,36 @@ export default function App() {
     { id: 'dropdown', name: 'Dropdown', description: 'Select menu component', status: 'coming-soon' },
   ];
 
+  const colorThemes = [
+    { id: 'blue', name: 'Blue', color: 'bg-blue-500', description: 'Professional blue theme' },
+    { id: 'gray', name: 'Gray', color: 'bg-gray-500', description: 'Neutral gray theme' },
+    { id: 'brown', name: 'Brown', color: 'bg-amber-600', description: 'Warm brown theme' },
+    { id: 'yellow', name: 'Yellow', color: 'bg-yellow-500', description: 'Bright yellow theme' },
+  ];
+
+  // Theme management
+  useEffect(() => {
+    const savedTheme = localStorage.getItem('weaver-theme');
+    const savedColorTheme = localStorage.getItem('weaver-color-theme');
+    if (savedTheme) setTheme(savedTheme);
+    if (savedColorTheme) setColorTheme(savedColorTheme);
+  }, []);
+
+  useEffect(() => {
+    localStorage.setItem('weaver-theme', theme);
+    document.documentElement.setAttribute('data-theme', theme);
+    document.documentElement.setAttribute('data-color-theme', colorTheme);
+  }, [theme, colorTheme]);
+
+  const getThemeIcon = () => {
+    switch (theme) {
+      case 'light': return <Sun className="w-4 h-4" />;
+      case 'dark': return <Moon className="w-4 h-4" />;
+      case 'system': return <Monitor className="w-4 h-4" />;
+      default: return <Sun className="w-4 h-4" />;
+    }
+  };
+
   const generateCode = () => {
     const iconProps = showIcons ? `\n  showLeadingIcon={true}\n  leadingIcon="+"` : '';
     const rtlProps = isRTL ? `\n  rtl={true}` : '';
@@ -61,12 +119,10 @@ export default function App() {
     <div className="max-w-6xl mx-auto">
       {/* Hero Section */}
       <div className="text-center py-16 px-6">
-        <div className="inline-flex items-center justify-center w-20 h-20 rounded-2xl bg-gradient-to-br from-blue-600 to-blue-800 mb-8">
-          <svg className="w-10 h-10 text-white" fill="currentColor" viewBox="0 0 24 24">
-            <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/>
-          </svg>
+        <div className="inline-flex items-center justify-center w-20 h-20 rounded-2xl bg-gradient-to-br from-blue-600 to-blue-800 mb-8 shadow-lg">
+          <Zap className="w-10 h-10 text-white" />
         </div>
-        <h1 className="text-5xl font-bold tracking-tight mb-6">
+        <h1 className="text-5xl font-bold tracking-tight mb-6 bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
           Weaver Design System
         </h1>
         <p className="text-xl text-muted-foreground mb-8 max-w-3xl mx-auto">
@@ -79,7 +135,7 @@ export default function App() {
             size="lg" 
             label="Get Started" 
             showLeadingIcon={true}
-            leadingIcon="🚀"
+            leadingIcon={<ChevronRight className="w-4 h-4" />}
             onClick={() => setCurrentPage('components')}
           />
           <WeaverButton 
@@ -87,36 +143,30 @@ export default function App() {
             size="lg" 
             label="View Components" 
             showLeadingIcon={true}
-            leadingIcon="📦"
+            leadingIcon={<Github className="w-4 h-4" />}
             onClick={() => setCurrentPage('components')}
           />
         </div>
 
         {/* Features Grid */}
         <div className="grid md:grid-cols-3 gap-8 mb-16">
-          <div className="text-center p-8 rounded-xl border bg-card hover:shadow-lg transition-shadow">
-            <div className="w-16 h-16 rounded-xl bg-blue-100 flex items-center justify-center mx-auto mb-6">
-              <svg className="w-8 h-8 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
-              </svg>
+          <div className="text-center p-8 rounded-xl border bg-card hover:shadow-lg transition-all duration-300 hover:-translate-y-1">
+            <div className="w-16 h-16 rounded-xl bg-blue-100 dark:bg-blue-900 flex items-center justify-center mx-auto mb-6">
+              <Zap className="w-8 h-8 text-blue-600 dark:text-blue-400" />
             </div>
             <h3 className="text-xl font-semibold mb-3">Lightning Fast</h3>
             <p className="text-muted-foreground">Built with performance in mind. Optimized components that load quickly and run smoothly.</p>
           </div>
-          <div className="text-center p-8 rounded-xl border bg-card hover:shadow-lg transition-shadow">
-            <div className="w-16 h-16 rounded-xl bg-green-100 flex items-center justify-center mx-auto mb-6">
-              <svg className="w-8 h-8 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-              </svg>
+          <div className="text-center p-8 rounded-xl border bg-card hover:shadow-lg transition-all duration-300 hover:-translate-y-1">
+            <div className="w-16 h-16 rounded-xl bg-green-100 dark:bg-green-900 flex items-center justify-center mx-auto mb-6">
+              <Shield className="w-8 h-8 text-green-600 dark:text-green-400" />
             </div>
             <h3 className="text-xl font-semibold mb-3">Accessible</h3>
             <p className="text-muted-foreground">WCAG compliant components with keyboard navigation and screen reader support.</p>
           </div>
-          <div className="text-center p-8 rounded-xl border bg-card hover:shadow-lg transition-shadow">
-            <div className="w-16 h-16 rounded-xl bg-purple-100 flex items-center justify-center mx-auto mb-6">
-              <svg className="w-8 h-8 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zM21 5a2 2 0 00-2-2h-4a2 2 0 00-2 2v12a4 4 0 004 4h4a2 2 0 002-2V5z" />
-              </svg>
+          <div className="text-center p-8 rounded-xl border bg-card hover:shadow-lg transition-all duration-300 hover:-translate-y-1">
+            <div className="w-16 h-16 rounded-xl bg-purple-100 dark:bg-purple-900 flex items-center justify-center mx-auto mb-6">
+              <Palette className="w-8 h-8 text-purple-600 dark:text-purple-400" />
             </div>
             <h3 className="text-xl font-semibold mb-3">Customizable</h3>
             <p className="text-muted-foreground">Easily theme and customize components to match your brand's unique style.</p>
@@ -249,9 +299,7 @@ export default function App() {
                     onClick={() => navigator.clipboard.writeText(generateCode())}
                     className="inline-flex items-center gap-2 px-4 py-2 text-sm bg-primary text-primary-foreground rounded-md hover:bg-primary/90 transition-colors"
                   >
-                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
-                    </svg>
+                    <Copy className="w-4 h-4" />
                     Copy Code
                   </button>
                 </div>
@@ -589,9 +637,7 @@ export default function App() {
                   onClick={() => navigator.clipboard.writeText('npm install @weaver/design-system')}
                   className="absolute top-2 right-2 p-2 bg-slate-800 hover:bg-slate-700 text-slate-50 rounded-md transition-colors"
                 >
-                  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
-                  </svg>
+                  <Copy className="w-4 h-4" />
                 </button>
               </div>
             </div>
@@ -605,9 +651,7 @@ export default function App() {
                   onClick={() => navigator.clipboard.writeText('yarn add @weaver/design-system')}
                   className="absolute top-2 right-2 p-2 bg-slate-800 hover:bg-slate-700 text-slate-50 rounded-md transition-colors"
                 >
-                  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
-                  </svg>
+                  <Copy className="w-4 h-4" />
                 </button>
               </div>
             </div>
@@ -621,9 +665,7 @@ export default function App() {
                   onClick={() => navigator.clipboard.writeText('pnpm add @weaver/design-system')}
                   className="absolute top-2 right-2 p-2 bg-slate-800 hover:bg-slate-700 text-slate-50 rounded-md transition-colors"
                 >
-                  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
-                  </svg>
+                  <Copy className="w-4 h-4" />
                 </button>
               </div>
             </div>
@@ -865,19 +907,19 @@ function App() {
       {/* Header */}
       <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
         <div className="container flex h-16 max-w-screen-2xl items-center px-4">
-          <div className="mr-4 hidden md:flex">
+          <div className="mr-4 flex items-center">
             <button 
               className="mr-6 flex items-center space-x-2"
               onClick={() => setCurrentPage('home')}
             >
-              <div className="flex items-center justify-center w-8 h-8 rounded-lg bg-gradient-to-br from-blue-600 to-blue-800">
-                <svg className="w-5 h-5 text-white" fill="currentColor" viewBox="0 0 24 24">
-                  <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/>
-                </svg>
+              <div className="flex items-center justify-center w-8 h-8 rounded-lg bg-gradient-to-br from-blue-600 to-blue-800 shadow-lg">
+                <Zap className="w-5 h-5 text-white" />
               </div>
               <span className="hidden font-bold sm:inline-block text-xl">Weaver</span>
             </button>
-            <nav className="flex items-center gap-6 text-sm">
+            
+            {/* Desktop Navigation */}
+            <nav className="hidden md:flex items-center gap-6 text-sm">
               <button 
                 onClick={() => setCurrentPage('home')}
                 className={`transition-colors hover:text-foreground/80 ${
@@ -912,19 +954,126 @@ function App() {
               </button>
             </nav>
           </div>
+          
           <div className="flex flex-1 items-center justify-between space-x-2 md:justify-end">
-            <div className="w-full flex-1 md:w-auto md:flex-none">
-              <div className="flex items-center space-x-2">
-                <span className="inline-flex items-center rounded-md border px-2.5 py-0.5 text-xs font-semibold transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 border-transparent bg-primary text-primary-foreground hover:bg-primary/80">
-                  v1.0.0
-                </span>
-                <span className="inline-flex items-center rounded-md border px-2.5 py-0.5 text-xs font-semibold transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 border-transparent bg-green-100 text-green-800 hover:bg-green-200">
-                  Production Ready
-                </span>
-              </div>
+            <div className="flex items-center space-x-2">
+              <span className="inline-flex items-center rounded-md border px-2.5 py-0.5 text-xs font-semibold transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 border-transparent bg-primary text-primary-foreground hover:bg-primary/80">
+                v1.0.0
+              </span>
+              <span className="inline-flex items-center rounded-md border px-2.5 py-0.5 text-xs font-semibold transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 border-transparent bg-green-100 text-green-800 hover:bg-green-200">
+                Production Ready
+              </span>
             </div>
+            
+            {/* Theme Switcher */}
+            <div className="relative ml-4">
+              <button
+                onClick={() => setShowThemeMenu(!showThemeMenu)}
+                className="flex items-center space-x-2 px-3 py-2 rounded-md border bg-background hover:bg-accent transition-colors"
+              >
+                {getThemeIcon()}
+                <span className="text-sm">{theme}</span>
+              </button>
+              
+              {showThemeMenu && (
+                <div className="absolute right-0 mt-2 w-48 bg-popover border rounded-md shadow-lg z-50">
+                  <div className="p-2">
+                    <button
+                      onClick={() => { setTheme('light'); setShowThemeMenu(false); }}
+                      className="w-full flex items-center space-x-2 px-3 py-2 text-sm hover:bg-accent rounded-md"
+                    >
+                      <Sun className="w-4 h-4" />
+                      <span>Light</span>
+                      {theme === 'light' && <Check className="w-4 h-4 ml-auto" />}
+                    </button>
+                    <button
+                      onClick={() => { setTheme('dark'); setShowThemeMenu(false); }}
+                      className="w-full flex items-center space-x-2 px-3 py-2 text-sm hover:bg-accent rounded-md"
+                    >
+                      <Moon className="w-4 h-4" />
+                      <span>Dark</span>
+                      {theme === 'dark' && <Check className="w-4 h-4 ml-auto" />}
+                    </button>
+                    <button
+                      onClick={() => { setTheme('system'); setShowThemeMenu(false); }}
+                      className="w-full flex items-center space-x-2 px-3 py-2 text-sm hover:bg-accent rounded-md"
+                    >
+                      <Monitor className="w-4 h-4" />
+                      <span>System</span>
+                      {theme === 'system' && <Check className="w-4 h-4 ml-auto" />}
+                    </button>
+                  </div>
+                  
+                  <div className="border-t p-2">
+                    <div className="text-xs font-medium text-muted-foreground mb-2">Color Theme</div>
+                    <div className="grid grid-cols-2 gap-1">
+                      {colorThemes.map((colorThemeOption) => (
+                        <button
+                          key={colorThemeOption.id}
+                          onClick={() => { setColorTheme(colorThemeOption.id); setShowThemeMenu(false); }}
+                          className={`flex items-center space-x-2 px-2 py-1 text-xs rounded hover:bg-accent ${
+                            colorTheme === colorThemeOption.id ? 'bg-accent' : ''
+                          }`}
+                        >
+                          <div className={`w-3 h-3 rounded-full ${colorThemeOption.color}`} />
+                          <span>{colorThemeOption.name}</span>
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+              )}
+            </div>
+            
+            {/* Mobile Menu Button */}
+            <button
+              onClick={() => setShowMobileMenu(!showMobileMenu)}
+              className="md:hidden ml-2 p-2 rounded-md hover:bg-accent"
+            >
+              {showMobileMenu ? <CloseIcon className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
+            </button>
           </div>
         </div>
+        
+        {/* Mobile Menu */}
+        {showMobileMenu && (
+          <div className="md:hidden border-t bg-background">
+            <div className="px-4 py-2 space-y-1">
+              <button 
+                onClick={() => { setCurrentPage('home'); setShowMobileMenu(false); }}
+                className={`w-full text-left px-3 py-2 rounded-md text-sm ${
+                  currentPage === 'home' ? 'bg-accent' : 'hover:bg-accent'
+                }`}
+              >
+                Home
+              </button>
+              <button 
+                onClick={() => { setCurrentPage('components'); setShowMobileMenu(false); }}
+                className={`w-full text-left px-3 py-2 rounded-md text-sm ${
+                  currentPage === 'components' ? 'bg-accent' : 'hover:bg-accent'
+                }`}
+              >
+                Components
+              </button>
+              <button 
+                onClick={() => { setCurrentPage('documentation'); setShowMobileMenu(false); }}
+                className={`w-full text-left px-3 py-2 rounded-md text-sm ${
+                  currentPage === 'documentation' ? 'bg-accent' : 'hover:bg-accent'
+                }`}
+              >
+                Documentation
+              </button>
+              <button 
+                onClick={() => { setCurrentPage('examples'); setShowMobileMenu(false); }}
+                className={`w-full text-left px-3 py-2 rounded-md text-sm ${
+                  currentPage === 'examples' ? 'bg-accent' : 'hover:bg-accent'
+                }`}
+              >
+                Examples
+              </button>
+            </div>
+          </div>
+        )}
       </header>
 
       {/* Main Content */}
@@ -938,10 +1087,8 @@ function App() {
           <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
             <div className="space-y-4">
               <div className="flex items-center space-x-2">
-                <div className="flex items-center justify-center w-8 h-8 rounded-lg bg-gradient-to-br from-blue-600 to-blue-800">
-                  <svg className="w-5 h-5 text-white" fill="currentColor" viewBox="0 0 24 24">
-                    <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/>
-                  </svg>
+                <div className="flex items-center justify-center w-8 h-8 rounded-lg bg-gradient-to-br from-blue-600 to-blue-800 shadow-lg">
+                  <Zap className="w-5 h-5 text-white" />
                 </div>
                 <span className="font-bold text-xl">Weaver</span>
               </div>
