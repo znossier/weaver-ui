@@ -4,27 +4,27 @@ import { cva } from "class-variance-authority";
 import { cn } from "../../lib/utils"
 
 const weaverButtonVariants = cva(
-  "inline-flex items-center justify-center gap-weaver-xxs flex-shrink-0 transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-weaver-primary focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0",
+  "inline-flex items-center justify-center gap-weaver-xxs flex-shrink-0 transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-weaver-primary focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0 rounded-weaver-md",
   {
     variants: {
       style: {
-        primary: "bg-weaver-primary text-white shadow-weaver hover:bg-weaver-primary-hover",
-        secondary: "bg-weaver-secondary text-weaver-text-default shadow-weaver hover:bg-weaver-secondary-hover",
-        soft: "bg-weaver-bg-subtle text-weaver-text-default shadow-weaver hover:bg-weaver-bg-muted",
-        outline: "border border-weaver-border-default bg-transparent text-weaver-text-default hover:bg-weaver-bg-subtle",
-        ghost: "bg-transparent text-weaver-text-default hover:bg-weaver-bg-subtle",
-        danger: "bg-weaver-danger text-white shadow-weaver hover:bg-weaver-red-600",
-        "ghost-primary": "bg-transparent text-weaver-primary hover:bg-weaver-bg-subtle",
-        "soft-danger": "bg-weaver-red-50 text-weaver-danger hover:bg-weaver-red-100",
-        white: "bg-weaver-white text-weaver-text-default shadow-weaver hover:bg-weaver-gray-50",
-        dashed: "border border-dashed border-weaver-border-default bg-transparent text-weaver-text-default hover:bg-weaver-bg-subtle",
+        primary: "bg-blue-600 text-white shadow-sm hover:bg-blue-700",
+        "outline-blue": "border border-blue-600 bg-transparent text-blue-600 hover:bg-blue-50",
+        "ghost-blue": "bg-transparent text-blue-600 hover:bg-blue-50",
+        "soft-blue": "bg-[rgba(88,123,140,0.10)] text-blue-600 shadow-[0_1px_0_0_rgba(255,255,255,0.00)_inset] hover:bg-blue-100",
+        danger: "bg-red-600 text-white shadow-sm hover:bg-red-700",
+        "soft-danger": "bg-red-50 text-red-600 shadow-[0_1px_0_0_rgba(255,255,255,0.00)_inset] hover:bg-red-100",
+        secondary: "bg-[#F9FBFC] text-gray-700 border border-[rgba(22,64,112,0.15)] shadow-[0_-1px_0_0_rgba(0,0,0,0.08)_inset,0_1px_2px_0_rgba(15,17,20,0.05)] hover:bg-gray-50",
+        "outline-gray": "border border-gray-300 bg-transparent text-gray-700 hover:bg-gray-50",
+        "ghost-gray": "bg-transparent text-gray-700 hover:bg-gray-50",
+        dashed: "border border-dashed border-gray-300 bg-transparent text-gray-700 hover:bg-gray-50",
       },
       state: {
         default: "",
         hover: "",
         pressed: "",
         focused: "",
-        disabled: "opacity-50 cursor-not-allowed",
+        disabled: "opacity-50 cursor-not-allowed bg-gray-100 text-gray-400 border-gray-200",
       },
       size: {
         lg: "h-12 px-weaver-6xl py-weaver-md text-base",

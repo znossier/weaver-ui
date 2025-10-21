@@ -1,7 +1,7 @@
 {
   "name": "@weaver/design-system",
   "version": "1.0.0",
-  "description": "Weaver Design System - A comprehensive React component library built with shadcn/ui and Tailwind CSS",
+  "description": "A professional React component library built with shadcn/ui and Tailwind CSS. Featuring comprehensive button components with 10 variants, 4 sizes, RTL support, and full accessibility compliance.",
   "type": "module",
   "main": "./dist/index.js",
   "module": "./dist/index.js",
@@ -18,6 +18,20 @@
     },
     "./styles": "./dist/styles.css"
   },
+  "keywords": [
+    "react",
+    "components",
+    "design-system",
+    "tailwind",
+    "shadcn",
+    "weaver",
+    "ui",
+    "typescript",
+    "accessibility",
+    "rtl",
+    "button",
+    "library"
+  ],
   "scripts": {
     "dev": "vite",
     "build": "vite build && npm run build:types",
@@ -66,7 +80,6 @@
     "typescript"
   ],
   "author": "Weaver Design Team",
-  "license": "MIT",
   "repository": {
     "type": "git",
     "url": "https://github.com/weaver/design-system.git"

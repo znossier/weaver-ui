@@ -1,34 +1,35 @@
 # Weaver Design System
 
-A professional React component library built with shadcn/ui and Tailwind CSS, featuring comprehensive design tokens and accessibility-first components.
+A professional React component library built with shadcn/ui and Tailwind CSS. Featuring comprehensive button components with 10 variants, 4 sizes, RTL support, and full accessibility compliance.
 
-[![npm version](https://badge.fury.io/js/%40weaver%2Fdesign-system.svg)](https://badge.fury.io/js/%40weaver%2Fdesign-system)
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+## 🚀 Features
 
-## ✨ Features
+- **10 Button Variants** - Primary, Secondary, Outline, Ghost, Soft, Danger, and more
+- **4 Size Options** - Extra Small (32px) to Large (48px)
+- **RTL Support** - Built-in right-to-left language support
+- **Accessibility Ready** - WCAG compliant with keyboard navigation
+- **TypeScript Support** - Full type definitions included
+- **Tailwind CSS** - Utility-first styling with custom design tokens
+- **shadcn/ui Integration** - Built on top of shadcn/ui components
 
-- 🎨 **10 Button Styles** - Primary, Secondary, Soft, Outline, Ghost, Danger, and more
-- 📏 **4 Size Variants** - Extra Small (32px) to Large (48px)
-- 🌍 **RTL Support** - Built-in right-to-left language support
-- ♿ **Accessibility First** - WCAG compliant with proper ARIA attributes
-- 🎯 **TypeScript Ready** - Full type definitions included
-- 🚀 **Tree Shakeable** - Import only what you need
-- 📱 **Responsive** - Mobile-first design approach
-- 🎨 **Design Tokens** - Comprehensive color, spacing, and typography system
-
-## 🚀 Quick Start
-
-### Installation
+## 📦 Installation
 
 ```bash
 npm install @weaver/design-system
 ```
 
-### Basic Usage
+```bash
+yarn add @weaver/design-system
+```
+
+```bash
+pnpm add @weaver/design-system
+```
+
+## 🎯 Quick Start
 
 ```jsx
 import { WeaverButton } from '@weaver/design-system';
-import '@weaver/design-system/styles';
 
 function App() {
   return (
@@ -36,137 +37,146 @@ function App() {
       style="primary" 
       size="md" 
       label="Click me"
-      showLeadingIcon={true}
-      leadingIcon={<PlusIcon />}
     />
   );
 }
 ```
 
-## 📦 Components
+## 🎨 Button Variants
 
-### WeaverButton
+| Variant | Description | Use Case |
+|---------|-------------|----------|
+| `primary` | Main action button | Primary CTAs |
+| `secondary` | Secondary action | Alternative actions |
+| `outline-blue` | Blue outline | Secondary CTAs |
+| `ghost-blue` | Transparent blue | Subtle actions |
+| `soft-blue` | Light blue background | Soft CTAs |
+| `danger` | Destructive action | Delete, remove |
+| `soft-danger` | Subtle danger | Soft destructive |
+| `outline-gray` | Gray outline | Neutral actions |
+| `ghost-gray` | Transparent gray | Minimal actions |
+| `dashed` | Dashed border | Upload, add |
 
-Professional button component with 10 styles and 4 sizes.
+## 📏 Button Sizes
 
-#### Props
+| Size | Height | Use Case |
+|------|--------|----------|
+| `xs` | 32px | Compact spaces |
+| `sm` | 36px | Small forms |
+| `md` | 40px | Standard buttons |
+| `lg` | 48px | Prominent actions |
+
+## 🌍 RTL Support
+
+```jsx
+<WeaverButton 
+  rtl={true}
+  label="انقر هنا"
+  showLeadingIcon={true}
+  leadingIcon="+"
+/>
+```
+
+## ♿ Accessibility
+
+- **Keyboard Navigation** - Full Tab/Enter/Space support
+- **Screen Reader** - Proper ARIA labels and descriptions
+- **Focus Management** - Visible focus indicators
+- **Color Contrast** - WCAG AA compliant
+
+## 🎛️ API Reference
+
+### WeaverButton Props
 
 | Prop | Type | Default | Description |
 |------|------|---------|-------------|
-| `style` | `'primary' \| 'secondary' \| 'soft' \| 'outline' \| 'ghost' \| 'danger' \| 'ghost-primary' \| 'soft-danger' \| 'white' \| 'dashed'` | `'primary'` | Button visual style |
-| `size` | `'xs' \| 'sm' \| 'md' \| 'lg'` | `'md'` | Button size |
-| `label` | `string` | - | Button text |
-| `ARlabel` | `string` | - | Arabic button text (for RTL) |
-| `rtl` | `boolean` | `false` | Right-to-left layout |
-| `showLeadingIcon` | `boolean` | `true` | Show leading icon |
-| `leadingIcon` | `ReactNode` | - | Leading icon component |
-| `showTrailingIcon` | `boolean` | `true` | Show trailing icon |
-| `trailingIcon` | `ReactNode` | - | Trailing icon component |
-| `disabled` | `boolean` | `false` | Disabled state |
-| `onClick` | `function` | - | Click handler |
+| `style` | `string` | `"primary"` | Button visual style variant |
+| `size` | `string` | `"md"` | Button size (xs, sm, md, lg) |
+| `state` | `string` | `"default"` | Button state (default, hover, pressed, focused, disabled) |
+| `label` | `string` | - | Button text content |
+| `rtl` | `boolean` | `false` | Enable right-to-left layout |
+| `showLeadingIcon` | `boolean` | `false` | Show leading icon |
+| `leadingIcon` | `ReactNode` | - | Leading icon element |
 
-#### Examples
+## 📚 Examples
+
+### Basic Usage
 
 ```jsx
-// Basic button
-<WeaverButton label="Save" />
+<WeaverButton style="primary" size="md" label="Save" />
+```
 
-// With icons
+### With Icons
+
+```jsx
 <WeaverButton 
-  label="Add Item" 
-  leadingIcon={<PlusIcon />}
-  trailingIcon={<ArrowRightIcon />}
+  style="primary" 
+  size="md" 
+  label="Add Item"
+  showLeadingIcon={true}
+  leadingIcon={<Plus />}
 />
+```
 
-// RTL support
+### RTL Support
+
+```jsx
 <WeaverButton 
   rtl={true}
-  label="English Text"
-  ARlabel="نص عربي"
-  leadingIcon={<ArrowLeftIcon />}
+  label="انقر هنا"
+  style="primary"
+  size="md"
 />
-
-// Different styles
-<WeaverButton style="outline" label="Cancel" />
-<WeaverButton style="danger" label="Delete" />
-<WeaverButton style="ghost" label="Skip" />
-
-// Different sizes
-<WeaverButton size="xs" label="Small" />
-<WeaverButton size="lg" label="Large" />
 ```
 
-## 🎨 Design System
+### Form Actions
 
-### Colors
-
-Our design system includes a comprehensive color palette:
-
-- **Primary**: Blue scale for main actions
-- **Secondary**: Gray scale for secondary actions  
-- **Semantic**: Success, Warning, Danger, Info colors
-- **Neutral**: Comprehensive gray and slate scales
-
-### Spacing
-
-Consistent spacing scale from 1px to 384px:
-
-```css
---weaver-space-xs: 4px;
---weaver-space-sm: 8px;
---weaver-space-md: 12px;
---weaver-space-lg: 16px;
---weaver-space-xl: 20px;
-/* ... and more */
+```jsx
+<div className="flex gap-2">
+  <WeaverButton style="primary" size="md" label="Save" />
+  <WeaverButton style="secondary" size="md" label="Cancel" />
+</div>
 ```
 
-### Typography
-
-Professional font stack with Inter as the primary typeface:
-
-- **Inter**: Primary sans-serif font
-- **Geist**: Alternative sans-serif
-- **Geist Mono**: Monospace font
-- **Alexandria**: Serif font
-
-## 🛠 Development
+## 🛠️ Development
 
 ### Prerequisites
 
 - Node.js 18+
-- npm or yarn
+- npm/yarn/pnpm
 
 ### Setup
 
 ```bash
-# Clone the repository
 git clone https://github.com/weaver/design-system.git
 cd design-system
-
-# Install dependencies
 npm install
-
-# Start development server
 npm run dev
 ```
 
-### Building
+### Build
 
 ```bash
-# Build the library
 npm run build
+```
 
-# Build with type definitions
-npm run build:types
+### Test
+
+```bash
+npm run test
 ```
 
 ## 📄 License
 
-MIT License - see [LICENSE](LICENSE) file for details.
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
 ## 🤝 Contributing
 
-We welcome contributions! Please see our [Contributing Guide](CONTRIBUTING.md) for details.
+1. Fork the repository
+2. Create your feature branch (`git checkout -b feature/amazing-feature`)
+3. Commit your changes (`git commit -m 'Add some amazing feature'`)
+4. Push to the branch (`git push origin feature/amazing-feature`)
+5. Open a Pull Request
 
 ## 📞 Support
 
@@ -174,6 +184,12 @@ We welcome contributions! Please see our [Contributing Guide](CONTRIBUTING.md) f
 - 🐛 Issues: [GitHub Issues](https://github.com/weaver/design-system/issues)
 - 📖 Documentation: [docs.weaver.design](https://docs.weaver.design)
 
+## 🎉 Acknowledgments
+
+- Built with [shadcn/ui](https://ui.shadcn.com/)
+- Styled with [Tailwind CSS](https://tailwindcss.com/)
+- Powered by [React](https://reactjs.org/)
+
 ---
 
-Built with ❤️ by the Weaver Design Team
+Made with ❤️ by the Weaver Design Team
