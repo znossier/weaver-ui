@@ -32,9 +32,9 @@ export default function App() {
   const [selectedState, setSelectedState] = useState('default');
   const [isRTL, setIsRTL] = useState(false);
   const [showIcons, setShowIcons] = useState(true);
-  const [theme, setTheme] = useState('light');
+  const [isDarkMode, setIsDarkMode] = useState(false);
   const [colorTheme, setColorTheme] = useState('blue');
-  const [showThemeMenu, setShowThemeMenu] = useState(false);
+  const [showColorMenu, setShowColorMenu] = useState(false);
   const [showMobileMenu, setShowMobileMenu] = useState(false);
 
   const buttonStyles = [
@@ -74,34 +74,26 @@ export default function App() {
   ];
 
   const colorThemes = [
-    { id: 'blue', name: 'Blue', color: 'bg-blue-500', description: 'Professional blue theme' },
-    { id: 'gray', name: 'Gray', color: 'bg-gray-500', description: 'Neutral gray theme' },
-    { id: 'brown', name: 'Brown', color: 'bg-amber-600', description: 'Warm brown theme' },
-    { id: 'yellow', name: 'Yellow', color: 'bg-yellow-500', description: 'Bright yellow theme' },
+    { id: 'blue', name: 'Blue', color: 'bg-blue-500', ring: 'ring-blue-500', description: 'Professional blue theme' },
+    { id: 'gray', name: 'Gray', color: 'bg-gray-500', ring: 'ring-gray-500', description: 'Neutral gray theme' },
+    { id: 'brown', name: 'Brown', color: 'bg-amber-600', ring: 'ring-amber-500', description: 'Warm brown theme' },
+    { id: 'yellow', name: 'Yellow', color: 'bg-yellow-500', ring: 'ring-yellow-500', description: 'Bright yellow theme' },
   ];
 
   // Theme management
   useEffect(() => {
-    const savedTheme = localStorage.getItem('weaver-theme');
+    const savedDarkMode = localStorage.getItem('weaver-dark-mode');
     const savedColorTheme = localStorage.getItem('weaver-color-theme');
-    if (savedTheme) setTheme(savedTheme);
+    if (savedDarkMode) setIsDarkMode(savedDarkMode === 'true');
     if (savedColorTheme) setColorTheme(savedColorTheme);
   }, []);
 
   useEffect(() => {
-    localStorage.setItem('weaver-theme', theme);
-    document.documentElement.setAttribute('data-theme', theme);
+    localStorage.setItem('weaver-dark-mode', isDarkMode.toString());
+    localStorage.setItem('weaver-color-theme', colorTheme);
+    document.documentElement.setAttribute('data-theme', isDarkMode ? 'dark' : 'light');
     document.documentElement.setAttribute('data-color-theme', colorTheme);
-  }, [theme, colorTheme]);
-
-  const getThemeIcon = () => {
-    switch (theme) {
-      case 'light': return <Sun className="w-4 h-4" />;
-      case 'dark': return <Moon className="w-4 h-4" />;
-      case 'system': return <Monitor className="w-4 h-4" />;
-      default: return <Sun className="w-4 h-4" />;
-    }
-  };
+  }, [isDarkMode, colorTheme]);
 
   const generateCode = () => {
     const iconProps = showIcons ? `\n  showLeadingIcon={true}\n  leadingIcon="+"` : '';
@@ -116,80 +108,113 @@ export default function App() {
   };
 
   const HomePage = () => (
-    <div className="max-w-6xl mx-auto">
+    <div className="max-w-7xl mx-auto px-6">
       {/* Hero Section */}
-      <div className="text-center py-16 px-6">
-        <div className="inline-flex items-center justify-center w-20 h-20 rounded-2xl bg-gradient-to-br from-blue-600 to-blue-800 mb-8 shadow-lg">
-          <Zap className="w-10 h-10 text-white" />
+      <div className="relative overflow-hidden">
+        <div className="absolute inset-0 bg-gradient-to-br from-blue-50 via-purple-50 to-pink-50 dark:from-blue-950/20 dark:via-purple-950/20 dark:to-pink-950/20" />
+        <div className="relative text-center py-24">
+          <div className="inline-flex items-center justify-center w-24 h-24 rounded-3xl bg-gradient-to-br from-blue-600 via-purple-600 to-pink-600 mb-8 shadow-2xl">
+            <Zap className="w-12 h-12 text-white" />
+          </div>
+          <h1 className="text-6xl md:text-7xl font-bold tracking-tight mb-6">
+            <span className="bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 bg-clip-text text-transparent">
+              Weaver
+            </span>
+            <br />
+            <span className="text-4xl md:text-5xl text-foreground/80">Design System</span>
+          </h1>
+          <p className="text-xl md:text-2xl text-muted-foreground mb-12 max-w-4xl mx-auto leading-relaxed">
+            The most comprehensive React component library built with modern design principles. 
+            Beautiful, accessible, and production-ready components for your next project.
+          </p>
+          <div className="flex flex-col sm:flex-row gap-6 justify-center mb-20">
+            <WeaverButton 
+              style="primary" 
+              size="lg" 
+              label="Explore Components" 
+              showLeadingIcon={true}
+              leadingIcon={<ChevronRight className="w-5 h-5" />}
+              onClick={() => setCurrentPage('components')}
+            />
+            <WeaverButton 
+              style="outline-blue" 
+              size="lg" 
+              label="View Documentation" 
+              showLeadingIcon={true}
+              leadingIcon={<ExternalLink className="w-5 h-5" />}
+              onClick={() => setCurrentPage('documentation')}
+            />
+          </div>
         </div>
-        <h1 className="text-5xl font-bold tracking-tight mb-6 bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
-          Weaver Design System
-        </h1>
-        <p className="text-xl text-muted-foreground mb-8 max-w-3xl mx-auto">
-          A comprehensive React component library built with shadcn/ui and Tailwind CSS. 
-          Beautiful, accessible, and customizable components for modern web applications.
-        </p>
-        <div className="flex flex-col sm:flex-row gap-4 justify-center mb-16">
-          <WeaverButton 
-            style="primary" 
-            size="lg" 
-            label="Get Started" 
-            showLeadingIcon={true}
-            leadingIcon={<ChevronRight className="w-4 h-4" />}
-            onClick={() => setCurrentPage('components')}
-          />
-          <WeaverButton 
-            style="outline-blue" 
-            size="lg" 
-            label="View Components" 
-            showLeadingIcon={true}
-            leadingIcon={<Github className="w-4 h-4" />}
-            onClick={() => setCurrentPage('components')}
-          />
+      </div>
+
+      {/* Features Section */}
+      <div className="py-20">
+        <div className="text-center mb-16">
+          <h2 className="text-4xl font-bold mb-4">Why Choose Weaver?</h2>
+          <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
+            Built for developers who demand excellence. Every component is crafted with attention to detail.
+          </p>
+        </div>
+        
+        <div className="grid lg:grid-cols-3 gap-8 mb-20">
+          <div className="group p-8 rounded-2xl border bg-card/50 hover:bg-card hover:shadow-xl transition-all duration-500 hover:-translate-y-2">
+            <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-blue-500 to-blue-600 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300">
+              <Zap className="w-8 h-8 text-white" />
+            </div>
+            <h3 className="text-2xl font-bold mb-4">Lightning Fast</h3>
+            <p className="text-muted-foreground leading-relaxed">
+              Optimized for performance with tree-shaking, lazy loading, and minimal bundle size. 
+              Your users will love the speed.
+            </p>
+          </div>
+          
+          <div className="group p-8 rounded-2xl border bg-card/50 hover:bg-card hover:shadow-xl transition-all duration-500 hover:-translate-y-2">
+            <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-green-500 to-green-600 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300">
+              <Shield className="w-8 h-8 text-white" />
+            </div>
+            <h3 className="text-2xl font-bold mb-4">Accessible by Default</h3>
+            <p className="text-muted-foreground leading-relaxed">
+              WCAG 2.1 AA compliant components with keyboard navigation, screen reader support, 
+              and proper focus management.
+            </p>
+          </div>
+          
+          <div className="group p-8 rounded-2xl border bg-card/50 hover:bg-card hover:shadow-xl transition-all duration-500 hover:-translate-y-2">
+            <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-purple-500 to-purple-600 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300">
+              <Palette className="w-8 h-8 text-white" />
+            </div>
+            <h3 className="text-2xl font-bold mb-4">Fully Customizable</h3>
+            <p className="text-muted-foreground leading-relaxed">
+              Theme any component to match your brand. Multiple color schemes, 
+              dark mode support, and CSS custom properties.
+            </p>
+          </div>
         </div>
 
-        {/* Features Grid */}
-        <div className="grid md:grid-cols-3 gap-8 mb-16">
-          <div className="text-center p-8 rounded-xl border bg-card hover:shadow-lg transition-all duration-300 hover:-translate-y-1">
-            <div className="w-16 h-16 rounded-xl bg-blue-100 dark:bg-blue-900 flex items-center justify-center mx-auto mb-6">
-              <Zap className="w-8 h-8 text-blue-600 dark:text-blue-400" />
+        {/* Stats Section */}
+        <div className="bg-gradient-to-r from-blue-50 to-purple-50 dark:from-blue-950/30 dark:to-purple-950/30 rounded-3xl p-12">
+          <div className="text-center mb-12">
+            <h3 className="text-3xl font-bold mb-4">Trusted by Developers</h3>
+            <p className="text-lg text-muted-foreground">Numbers that speak for themselves</p>
+          </div>
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
+            <div className="text-center">
+              <div className="text-5xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent mb-2">10+</div>
+              <div className="text-sm font-medium text-muted-foreground">Button Variants</div>
             </div>
-            <h3 className="text-xl font-semibold mb-3">Lightning Fast</h3>
-            <p className="text-muted-foreground">Built with performance in mind. Optimized components that load quickly and run smoothly.</p>
-          </div>
-          <div className="text-center p-8 rounded-xl border bg-card hover:shadow-lg transition-all duration-300 hover:-translate-y-1">
-            <div className="w-16 h-16 rounded-xl bg-green-100 dark:bg-green-900 flex items-center justify-center mx-auto mb-6">
-              <Shield className="w-8 h-8 text-green-600 dark:text-green-400" />
+            <div className="text-center">
+              <div className="text-5xl font-bold bg-gradient-to-r from-green-600 to-teal-600 bg-clip-text text-transparent mb-2">4</div>
+              <div className="text-sm font-medium text-muted-foreground">Size Options</div>
             </div>
-            <h3 className="text-xl font-semibold mb-3">Accessible</h3>
-            <p className="text-muted-foreground">WCAG compliant components with keyboard navigation and screen reader support.</p>
-          </div>
-          <div className="text-center p-8 rounded-xl border bg-card hover:shadow-lg transition-all duration-300 hover:-translate-y-1">
-            <div className="w-16 h-16 rounded-xl bg-purple-100 dark:bg-purple-900 flex items-center justify-center mx-auto mb-6">
-              <Palette className="w-8 h-8 text-purple-600 dark:text-purple-400" />
+            <div className="text-center">
+              <div className="text-5xl font-bold bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent mb-2">RTL</div>
+              <div className="text-sm font-medium text-muted-foreground">Language Support</div>
             </div>
-            <h3 className="text-xl font-semibold mb-3">Customizable</h3>
-            <p className="text-muted-foreground">Easily theme and customize components to match your brand's unique style.</p>
-          </div>
-        </div>
-
-        {/* Stats */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
-          <div className="text-center">
-            <div className="text-4xl font-bold text-blue-600 mb-2">10+</div>
-            <div className="text-sm text-muted-foreground">Button Variants</div>
-          </div>
-          <div className="text-center">
-            <div className="text-4xl font-bold text-green-600 mb-2">4</div>
-            <div className="text-sm text-muted-foreground">Size Options</div>
-          </div>
-          <div className="text-center">
-            <div className="text-4xl font-bold text-purple-600 mb-2">RTL</div>
-            <div className="text-sm text-muted-foreground">Language Support</div>
-          </div>
-          <div className="text-center">
-            <div className="text-4xl font-bold text-orange-600 mb-2">100%</div>
-            <div className="text-sm text-muted-foreground">Accessible</div>
+            <div className="text-center">
+              <div className="text-5xl font-bold bg-gradient-to-r from-orange-600 to-red-600 bg-clip-text text-transparent mb-2">100%</div>
+              <div className="text-sm font-medium text-muted-foreground">Accessible</div>
+            </div>
           </div>
         </div>
       </div>
@@ -204,6 +229,25 @@ export default function App() {
         case 'button':
           return (
             <div className="space-y-8">
+              {/* Breadcrumbs */}
+              <nav className="flex items-center space-x-2 text-sm text-muted-foreground">
+                <button 
+                  onClick={() => setCurrentPage('home')}
+                  className="hover:text-foreground transition-colors"
+                >
+                  Home
+                </button>
+                <ChevronRight className="w-4 h-4" />
+                <button 
+                  onClick={() => setCurrentPage('components')}
+                  className="hover:text-foreground transition-colors"
+                >
+                  Components
+                </button>
+                <ChevronRight className="w-4 h-4" />
+                <span className="text-foreground font-medium">Button</span>
+              </nav>
+              
               <div>
                 <h2 className="text-3xl font-bold mb-4">Button Component</h2>
                 <p className="text-lg text-muted-foreground mb-6">
@@ -304,8 +348,8 @@ export default function App() {
                   </button>
                 </div>
                 <div className="relative">
-                  <pre className="bg-slate-950 text-slate-50 p-6 rounded-lg text-sm overflow-x-auto border">
-                    <code className="text-slate-50">{generateCode()}</code>
+                  <pre className="bg-muted/50 border p-6 rounded-lg text-sm overflow-x-auto border">
+                    <code className="text-foreground">{generateCode()}</code>
                   </pre>
                 </div>
               </div>
@@ -630,12 +674,12 @@ export default function App() {
             <div>
               <h3 className="text-lg font-medium mb-2">npm</h3>
               <div className="relative">
-                <pre className="bg-slate-950 text-slate-50 p-4 rounded-lg text-sm overflow-x-auto border">
-                  <code className="text-slate-50">npm install @weaver/design-system</code>
+                <pre className="bg-muted/50 border p-4 rounded-lg text-sm overflow-x-auto border">
+                  <code className="text-foreground">npm install @weaver/design-system</code>
                 </pre>
                 <button 
                   onClick={() => navigator.clipboard.writeText('npm install @weaver/design-system')}
-                  className="absolute top-2 right-2 p-2 bg-slate-800 hover:bg-slate-700 text-slate-50 rounded-md transition-colors"
+                  className="absolute top-2 right-2 p-2 bg-background border hover:bg-accent text-foreground shadow-sm rounded-md transition-colors"
                 >
                   <Copy className="w-4 h-4" />
                 </button>
@@ -644,12 +688,12 @@ export default function App() {
             <div>
               <h3 className="text-lg font-medium mb-2">yarn</h3>
               <div className="relative">
-                <pre className="bg-slate-950 text-slate-50 p-4 rounded-lg text-sm overflow-x-auto border">
-                  <code className="text-slate-50">yarn add @weaver/design-system</code>
+                <pre className="bg-muted/50 border p-4 rounded-lg text-sm overflow-x-auto border">
+                  <code className="text-foreground">yarn add @weaver/design-system</code>
                 </pre>
                 <button 
                   onClick={() => navigator.clipboard.writeText('yarn add @weaver/design-system')}
-                  className="absolute top-2 right-2 p-2 bg-slate-800 hover:bg-slate-700 text-slate-50 rounded-md transition-colors"
+                  className="absolute top-2 right-2 p-2 bg-background border hover:bg-accent text-foreground shadow-sm rounded-md transition-colors"
                 >
                   <Copy className="w-4 h-4" />
                 </button>
@@ -658,12 +702,12 @@ export default function App() {
             <div>
               <h3 className="text-lg font-medium mb-2">pnpm</h3>
               <div className="relative">
-                <pre className="bg-slate-950 text-slate-50 p-4 rounded-lg text-sm overflow-x-auto border">
-                  <code className="text-slate-50">pnpm add @weaver/design-system</code>
+                <pre className="bg-muted/50 border p-4 rounded-lg text-sm overflow-x-auto border">
+                  <code className="text-foreground">pnpm add @weaver/design-system</code>
                 </pre>
                 <button 
                   onClick={() => navigator.clipboard.writeText('pnpm add @weaver/design-system')}
-                  className="absolute top-2 right-2 p-2 bg-slate-800 hover:bg-slate-700 text-slate-50 rounded-md transition-colors"
+                  className="absolute top-2 right-2 p-2 bg-background border hover:bg-accent text-foreground shadow-sm rounded-md transition-colors"
                 >
                   <Copy className="w-4 h-4" />
                 </button>
@@ -676,8 +720,8 @@ export default function App() {
         <div className="rounded-xl border bg-card p-8">
           <h2 className="text-2xl font-semibold mb-4">Basic Usage</h2>
           <div className="relative">
-            <pre className="bg-slate-950 text-slate-50 p-4 rounded-lg text-sm overflow-x-auto border">
-              <code className="text-slate-50">{`import { WeaverButton } from '@weaver/design-system';
+            <pre className="bg-muted/50 border p-4 rounded-lg text-sm overflow-x-auto border">
+              <code className="text-foreground">{`import { WeaverButton } from '@weaver/design-system';
 
 function App() {
   return (
@@ -701,7 +745,7 @@ function App() {
     />
   );
 }`)}
-              className="absolute top-2 right-2 p-2 bg-slate-800 hover:bg-slate-700 text-slate-50 rounded-md transition-colors"
+              className="absolute top-2 right-2 p-2 bg-background border hover:bg-accent text-foreground shadow-sm rounded-md transition-colors"
             >
               <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
@@ -775,14 +819,14 @@ function App() {
               <WeaverButton style="secondary" size="md" label="Cancel" />
             </div>
             <div className="relative">
-              <pre className="bg-slate-950 text-slate-50 p-4 rounded-lg text-sm overflow-x-auto border">
-                <code className="text-slate-50">{`<WeaverButton style="primary" size="md" label="Save Changes" />
+              <pre className="bg-muted/50 border p-4 rounded-lg text-sm overflow-x-auto border">
+                <code className="text-foreground">{`<WeaverButton style="primary" size="md" label="Save Changes" />
 <WeaverButton style="secondary" size="md" label="Cancel" />`}</code>
               </pre>
               <button 
                 onClick={() => navigator.clipboard.writeText(`<WeaverButton style="primary" size="md" label="Save Changes" />
 <WeaverButton style="secondary" size="md" label="Cancel" />`)}
-                className="absolute top-2 right-2 p-2 bg-slate-800 hover:bg-slate-700 text-slate-50 rounded-md transition-colors"
+                className="absolute top-2 right-2 p-2 bg-background border hover:bg-accent text-foreground shadow-sm rounded-md transition-colors"
               >
                 <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
@@ -801,8 +845,8 @@ function App() {
               <WeaverButton style="danger" size="sm" label="Delete" showLeadingIcon={true} leadingIcon="×" />
             </div>
             <div className="relative">
-              <pre className="bg-slate-950 text-slate-50 p-4 rounded-lg text-sm overflow-x-auto border">
-                <code className="text-slate-50">{`<WeaverButton 
+              <pre className="bg-muted/50 border p-4 rounded-lg text-sm overflow-x-auto border">
+                <code className="text-foreground">{`<WeaverButton 
   style="primary" 
   size="sm" 
   label="Add Item" 
@@ -818,7 +862,7 @@ function App() {
   showLeadingIcon={true} 
   leadingIcon="+" 
 />`)}
-                className="absolute top-2 right-2 p-2 bg-slate-800 hover:bg-slate-700 text-slate-50 rounded-md transition-colors"
+                className="absolute top-2 right-2 p-2 bg-background border hover:bg-accent text-foreground shadow-sm rounded-md transition-colors"
               >
                 <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
@@ -965,58 +1009,40 @@ function App() {
               </span>
             </div>
             
-            {/* Theme Switcher */}
-            <div className="relative ml-4">
+            {/* Dark Mode Toggle */}
+            <button
+              onClick={() => setIsDarkMode(!isDarkMode)}
+              className="flex items-center justify-center w-10 h-10 rounded-md border bg-background hover:bg-accent transition-colors"
+            >
+              {isDarkMode ? <Moon className="w-4 h-4" /> : <Sun className="w-4 h-4" />}
+            </button>
+            
+            {/* Color Theme Switcher */}
+            <div className="relative ml-2">
               <button
-                onClick={() => setShowThemeMenu(!showThemeMenu)}
+                onClick={() => setShowColorMenu(!showColorMenu)}
                 className="flex items-center space-x-2 px-3 py-2 rounded-md border bg-background hover:bg-accent transition-colors"
               >
-                {getThemeIcon()}
-                <span className="text-sm">{theme}</span>
+                <Palette className="w-4 h-4" />
+                <span className="text-sm capitalize">{colorTheme}</span>
               </button>
               
-              {showThemeMenu && (
+              {showColorMenu && (
                 <div className="absolute right-0 mt-2 w-48 bg-popover border rounded-md shadow-lg z-50">
-                  <div className="p-2">
-                    <button
-                      onClick={() => { setTheme('light'); setShowThemeMenu(false); }}
-                      className="w-full flex items-center space-x-2 px-3 py-2 text-sm hover:bg-accent rounded-md"
-                    >
-                      <Sun className="w-4 h-4" />
-                      <span>Light</span>
-                      {theme === 'light' && <Check className="w-4 h-4 ml-auto" />}
-                    </button>
-                    <button
-                      onClick={() => { setTheme('dark'); setShowThemeMenu(false); }}
-                      className="w-full flex items-center space-x-2 px-3 py-2 text-sm hover:bg-accent rounded-md"
-                    >
-                      <Moon className="w-4 h-4" />
-                      <span>Dark</span>
-                      {theme === 'dark' && <Check className="w-4 h-4 ml-auto" />}
-                    </button>
-                    <button
-                      onClick={() => { setTheme('system'); setShowThemeMenu(false); }}
-                      className="w-full flex items-center space-x-2 px-3 py-2 text-sm hover:bg-accent rounded-md"
-                    >
-                      <Monitor className="w-4 h-4" />
-                      <span>System</span>
-                      {theme === 'system' && <Check className="w-4 h-4 ml-auto" />}
-                    </button>
-                  </div>
-                  
-                  <div className="border-t p-2">
-                    <div className="text-xs font-medium text-muted-foreground mb-2">Color Theme</div>
-                    <div className="grid grid-cols-2 gap-1">
-                      {colorThemes.map((colorThemeOption) => (
+                  <div className="p-3">
+                    <div className="text-xs font-medium text-muted-foreground mb-3">Color Theme</div>
+                    <div className="grid grid-cols-2 gap-2">
+                      {colorThemes.map((themeOption) => (
                         <button
-                          key={colorThemeOption.id}
-                          onClick={() => { setColorTheme(colorThemeOption.id); setShowThemeMenu(false); }}
-                          className={`flex items-center space-x-2 px-2 py-1 text-xs rounded hover:bg-accent ${
-                            colorTheme === colorThemeOption.id ? 'bg-accent' : ''
+                          key={themeOption.id}
+                          onClick={() => { setColorTheme(themeOption.id); setShowColorMenu(false); }}
+                          className={`flex items-center space-x-2 px-3 py-2 text-sm rounded-md hover:bg-accent transition-colors ${
+                            colorTheme === themeOption.id ? 'bg-accent' : ''
                           }`}
                         >
-                          <div className={`w-3 h-3 rounded-full ${colorThemeOption.color}`} />
-                          <span>{colorThemeOption.name}</span>
+                          <div className={`w-4 h-4 rounded-full ${themeOption.color} ring-2 ${themeOption.ring} ring-offset-2`} />
+                          <span>{themeOption.name}</span>
+                          {colorTheme === themeOption.id && <Check className="w-4 h-4 ml-auto" />}
                         </button>
                       ))}
                     </div>
@@ -1077,13 +1103,13 @@ function App() {
       </header>
 
       {/* Main Content */}
-      <main className="container mx-auto px-4 py-8">
+      <main className="container mx-auto px-6 py-8">
         {renderCurrentPage()}
       </main>
 
       {/* Footer */}
       <footer className="border-t bg-muted/50 mt-16">
-        <div className="container mx-auto px-4 py-12">
+        <div className="container mx-auto px-6 py-12">
           <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
             <div className="space-y-4">
               <div className="flex items-center space-x-2">
