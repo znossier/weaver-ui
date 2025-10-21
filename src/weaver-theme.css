@@ -1,0 +1,195 @@
+/* Weaver Design System CSS Variables */
+
+/* Light Mode Colors */
+:root {
+  /* Base Colors */
+  --weaver-white: #ffffff;
+  --weaver-black: #000000;
+
+  /* Gray Scale */
+  --weaver-gray-50: #f9fafb;
+  --weaver-gray-100: #f3f4f6;
+  --weaver-gray-200: #e5e7eb;
+  --weaver-gray-300: #d1d5db;
+  --weaver-gray-400: #9ca3af;
+  --weaver-gray-500: #6b7280;
+  --weaver-gray-600: #4b5563;
+  --weaver-gray-700: #374151;
+  --weaver-gray-800: #1f2937;
+  --weaver-gray-900: #111827;
+  --weaver-gray-950: #030712;
+
+  /* Slate Scale */
+  --weaver-slate-50: #f8fafc;
+  --weaver-slate-100: #f1f5f9;
+  --weaver-slate-200: #e2e8f0;
+  --weaver-slate-300: #cbd5e1;
+  --weaver-slate-400: #94a3b8;
+  --weaver-slate-500: #64748b;
+  --weaver-slate-600: #475569;
+  --weaver-slate-700: #334155;
+  --weaver-slate-800: #1e293b;
+  --weaver-slate-900: #0f172a;
+  --weaver-slate-950: #020617;
+
+  /* Red Scale */
+  --weaver-red-50: #fef2f2;
+  --weaver-red-100: #fee2e2;
+  --weaver-red-200: #fecaca;
+  --weaver-red-300: #fca5a5;
+  --weaver-red-400: #f87171;
+  --weaver-red-500: #ef4444;
+  --weaver-red-600: #dc2626;
+  --weaver-red-700: #b91c1c;
+  --weaver-red-800: #991b1b;
+  --weaver-red-900: #7f1d1d;
+  --weaver-red-950: #450a0a;
+
+  /* Blue Scale */
+  --weaver-blue-50: #eff6ff;
+  --weaver-blue-100: #dbeafe;
+  --weaver-blue-200: #bfdbfe;
+  --weaver-blue-300: #93c5fd;
+  --weaver-blue-400: #60a5fa;
+  --weaver-blue-500: #3b82f6;
+  --weaver-blue-600: #2563eb;
+  --weaver-blue-700: #1d4ed8;
+  --weaver-blue-800: #1e40af;
+  --weaver-blue-900: #1e3a8a;
+  --weaver-blue-950: #172554;
+
+  /* Green Scale */
+  --weaver-green-50: #f0fdf4;
+  --weaver-green-100: #dcfce7;
+  --weaver-green-200: #bbf7d0;
+  --weaver-green-300: #86efac;
+  --weaver-green-400: #4ade80;
+  --weaver-green-500: #22c55e;
+  --weaver-green-600: #16a34a;
+  --weaver-green-700: #15803d;
+  --weaver-green-800: #166534;
+  --weaver-green-900: #14532d;
+  --weaver-green-950: #052e16;
+
+  /* Amber Scale */
+  --weaver-amber-50: #fffbeb;
+  --weaver-amber-100: #fef3c7;
+  --weaver-amber-200: #fde68a;
+  --weaver-amber-300: #fcd34d;
+  --weaver-amber-400: #fbbf24;
+  --weaver-amber-500: #f59e0b;
+  --weaver-amber-600: #d97706;
+  --weaver-amber-700: #b45309;
+  --weaver-amber-800: #92400e;
+  --weaver-amber-900: #78350f;
+  --weaver-amber-950: #451a03;
+
+  /* Semantic Colors (Light Mode) */
+  --weaver-bg-default: var(--weaver-white);
+  --weaver-bg-subtle: var(--weaver-gray-50);
+  --weaver-bg-muted: var(--weaver-gray-100);
+  --weaver-bg-accent: var(--weaver-blue-500);
+
+  --weaver-text-default: var(--weaver-gray-900);
+  --weaver-text-subtle: var(--weaver-gray-700);
+  --weaver-text-muted: var(--weaver-gray-500);
+  --weaver-text-disabled: var(--weaver-gray-400);
+
+  --weaver-border-default: var(--weaver-gray-200);
+  --weaver-border-subtle: var(--weaver-gray-100);
+  --weaver-border-strong: var(--weaver-gray-300);
+
+  --weaver-primary: var(--weaver-blue-600);
+  --weaver-primary-hover: var(--weaver-blue-700);
+  --weaver-primary-pressed: var(--weaver-blue-800);
+
+  --weaver-secondary: var(--weaver-gray-600);
+  --weaver-secondary-hover: var(--weaver-gray-700);
+  --weaver-secondary-pressed: var(--weaver-gray-800);
+
+  --weaver-success: var(--weaver-green-500);
+  --weaver-warning: var(--weaver-amber-500);
+  --weaver-danger: var(--weaver-red-500);
+  --weaver-info: var(--weaver-blue-500);
+
+  /* Typography */
+  --weaver-font-inter: 'Inter';
+  --weaver-font-geist: 'Geist';
+  --weaver-font-mono: 'Geist Mono';
+  --weaver-font-alexandria: 'Alexandria';
+
+  /* Spacing */
+  --weaver-space-xxxs: 1px;
+  --weaver-space-xxs: 2px;
+  --weaver-space-xs: 4px;
+  --weaver-space-sm: 8px;
+  --weaver-space-md: 12px;
+  --weaver-space-lg: 16px;
+  --weaver-space-xl: 20px;
+  --weaver-space-2xl: 24px;
+  --weaver-space-3xl: 28px;
+  --weaver-space-4xl: 32px;
+  --weaver-space-5xl: 36px;
+  --weaver-space-6xl: 40px;
+  --weaver-space-7xl: 44px;
+  --weaver-space-8xl: 48px;
+  --weaver-space-9xl: 52px;
+  --weaver-space-10xl: 56px;
+  --weaver-space-11xl: 60px;
+  --weaver-space-12xl: 64px;
+  --weaver-space-13xl: 72px;
+  --weaver-space-14xl: 80px;
+  --weaver-space-15xl: 88px;
+  --weaver-space-16xl: 96px;
+  --weaver-space-17xl: 104px;
+  --weaver-space-18xl: 112px;
+  --weaver-space-19xl: 120px;
+
+  /* Border Radii */
+  --weaver-radius-sm: 4px;
+  --weaver-radius-md: 8px;
+  --weaver-radius-lg: 12px;
+  --weaver-radius-xl: 16px;
+  --weaver-radius-2xl: 24px;
+  --weaver-radius-3xl: 32px;
+  --weaver-radius-full: 9999px;
+
+  /* Box Shadows */
+  --weaver-shadow-sm: 0px 1px 2px 0px rgba(0, 0, 0, 0.05);
+  --weaver-shadow: 0px 1px 3px 0px rgba(0, 0, 0, 0.1), 0px 1px 2px -1px rgba(0, 0, 0, 0.1);
+  --weaver-shadow-md: 0px 4px 6px -1px rgba(0, 0, 0, 0.1), 0px 2px 4px -2px rgba(0, 0, 0, 0.1);
+  --weaver-shadow-lg: 0px 10px 15px -3px rgba(0, 0, 0, 0.1), 0px 4px 6px -4px rgba(0, 0, 0, 0.1);
+  --weaver-shadow-xl: 0px 20px 25px -5px rgba(0, 0, 0, 0.1), 0px 8px 10px -6px rgba(0, 0, 0, 0.1);
+  --weaver-shadow-2xl: 0px 25px 50px -12px rgba(0, 0, 0, 0.25);
+}
+
+/* Dark Mode Colors */
+.dark {
+  /* Semantic Colors (Dark Mode) */
+  --weaver-bg-default: var(--weaver-gray-950);
+  --weaver-bg-subtle: var(--weaver-gray-900);
+  --weaver-bg-muted: var(--weaver-gray-800);
+  --weaver-bg-accent: var(--weaver-blue-500);
+
+  --weaver-text-default: var(--weaver-gray-50);
+  --weaver-text-subtle: var(--weaver-gray-300);
+  --weaver-text-muted: var(--weaver-gray-400);
+  --weaver-text-disabled: var(--weaver-gray-500);
+
+  --weaver-border-default: var(--weaver-gray-700);
+  --weaver-border-subtle: var(--weaver-gray-800);
+  --weaver-border-strong: var(--weaver-gray-600);
+
+  --weaver-primary: var(--weaver-blue-500);
+  --weaver-primary-hover: var(--weaver-blue-400);
+  --weaver-primary-pressed: var(--weaver-blue-300);
+
+  --weaver-secondary: var(--weaver-gray-500);
+  --weaver-secondary-hover: var(--weaver-gray-400);
+  --weaver-secondary-pressed: var(--weaver-gray-300);
+
+  --weaver-success: var(--weaver-green-400);
+  --weaver-warning: var(--weaver-amber-400);
+  --weaver-danger: var(--weaver-red-400);
+  --weaver-info: var(--weaver-blue-400);
+}
