@@ -170,10 +170,10 @@ We welcome contributions! Please see our [Contributing Guide](CONTRIBUTING.md) f
 
 ## 📞 Support
 
-- 📧 Email: support@weaver.design
+- 📧 Email: agalal@noon.com, zosman@noon.com, memousa@noon.com
 - 🐛 Issues: [GitHub Issues](https://github.com/weaver/design-system/issues)
 - 📖 Documentation: [docs.weaver.design](https://docs.weaver.design)
 
 ---
 
-Built with ❤️ by the Weaver Design Team
+Built with 💛 by noon's Supply Chain Design Team
