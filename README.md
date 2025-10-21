@@ -180,7 +180,7 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ## 📞 Support
 
-- 📧 Email: support@weaver.design
+- 📧 Email: agalal@noon.com, zosman@noon.com, memousa@noon.com
 - 🐛 Issues: [GitHub Issues](https://github.com/weaver/design-system/issues)
 - 📖 Documentation: [docs.weaver.design](https://docs.weaver.design)
 
