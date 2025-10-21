@@ -36,6 +36,7 @@ export default function App() {
   const [colorTheme, setColorTheme] = useState('blue');
   const [showColorMenu, setShowColorMenu] = useState(false);
   const [showMobileMenu, setShowMobileMenu] = useState(false);
+  const [sidebarOpen, setSidebarOpen] = useState(true);
 
   const buttonStyles = [
     { value: 'primary', label: 'Primary', description: 'Main action button' },
@@ -65,6 +66,15 @@ export default function App() {
     { value: 'disabled', label: 'Disabled' },
   ];
 
+  const navigationItems = [
+    { id: 'home', name: 'Home', icon: <Zap className="w-4 h-4" /> },
+    { id: 'components', name: 'Components', icon: <Shield className="w-4 h-4" /> },
+    { id: 'design-tokens', name: 'Design Tokens', icon: <Palette className="w-4 h-4" /> },
+    { id: 'documentation', name: 'Documentation', icon: <Edit className="w-4 h-4" /> },
+    { id: 'examples', name: 'Examples', icon: <Download className="w-4 h-4" /> },
+    { id: 'figma', name: 'Figma Library', icon: <ExternalLink className="w-4 h-4" /> },
+  ];
+
   const components = [
     { id: 'button', name: 'Button', description: 'Interactive button component', status: 'stable' },
     { id: 'input', name: 'Input', description: 'Form input component', status: 'coming-soon' },
@@ -72,6 +82,39 @@ export default function App() {
     { id: 'modal', name: 'Modal', description: 'Overlay dialog component', status: 'coming-soon' },
     { id: 'dropdown', name: 'Dropdown', description: 'Select menu component', status: 'coming-soon' },
   ];
+
+  const designTokens = {
+    typography: [
+      { name: 'Heading 1', class: 'text-4xl font-bold', example: 'The quick brown fox' },
+      { name: 'Heading 2', class: 'text-3xl font-bold', example: 'The quick brown fox' },
+      { name: 'Heading 3', class: 'text-2xl font-semibold', example: 'The quick brown fox' },
+      { name: 'Body Large', class: 'text-lg', example: 'The quick brown fox jumps over the lazy dog' },
+      { name: 'Body', class: 'text-base', example: 'The quick brown fox jumps over the lazy dog' },
+      { name: 'Body Small', class: 'text-sm', example: 'The quick brown fox jumps over the lazy dog' },
+      { name: 'Caption', class: 'text-xs', example: 'The quick brown fox jumps over the lazy dog' },
+    ],
+    spacing: [
+      { name: 'xs', value: '4px', class: 'p-1' },
+      { name: 'sm', value: '8px', class: 'p-2' },
+      { name: 'md', value: '16px', class: 'p-4' },
+      { name: 'lg', value: '24px', class: 'p-6' },
+      { name: 'xl', value: '32px', class: 'p-8' },
+      { name: '2xl', value: '48px', class: 'p-12' },
+    ],
+    colors: [
+      { name: 'Primary', value: '#3B82F6', class: 'bg-blue-500' },
+      { name: 'Secondary', value: '#6B7280', class: 'bg-gray-500' },
+      { name: 'Success', value: '#10B981', class: 'bg-green-500' },
+      { name: 'Warning', value: '#F59E0B', class: 'bg-yellow-500' },
+      { name: 'Error', value: '#EF4444', class: 'bg-red-500' },
+      { name: 'Info', value: '#06B6D4', class: 'bg-cyan-500' },
+    ],
+    numbers: [
+      { name: 'Font Weight', values: ['300', '400', '500', '600', '700', '800'] },
+      { name: 'Border Radius', values: ['4px', '8px', '12px', '16px', '24px', '32px'] },
+      { name: 'Shadows', values: ['sm', 'md', 'lg', 'xl', '2xl'] },
+    ]
+  };
 
   const colorThemes = [
     { id: 'blue', name: 'Blue', color: 'bg-blue-500', ring: 'ring-blue-500', description: 'Professional blue theme' },
@@ -108,114 +151,206 @@ export default function App() {
   };
 
   const HomePage = () => (
-    <div className="max-w-7xl mx-auto px-6">
+    <div className="max-w-7xl mx-auto">
       {/* Hero Section */}
-      <div className="relative overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-br from-blue-50 via-purple-50 to-pink-50 dark:from-blue-950/20 dark:via-purple-950/20 dark:to-pink-950/20" />
-        <div className="relative text-center py-24">
-          <div className="inline-flex items-center justify-center w-24 h-24 rounded-3xl bg-gradient-to-br from-blue-600 via-purple-600 to-pink-600 mb-8 shadow-2xl">
-            <Zap className="w-12 h-12 text-white" />
+      <div className="relative bg-gradient-to-br from-slate-50 to-blue-50 dark:from-slate-900 dark:to-blue-950/20 rounded-2xl p-12 mb-12">
+        <div className="flex items-center justify-between">
+          <div className="flex-1">
+            <div className="inline-flex items-center px-3 py-1 rounded-full bg-blue-100 dark:bg-blue-900/30 text-blue-800 dark:text-blue-200 text-sm font-medium mb-6">
+              <Shield className="w-4 h-4 mr-2" />
+              Noon Supply Chain Design System
+            </div>
+            <h1 className="text-5xl font-bold text-slate-900 dark:text-white mb-6">
+              Weaver Design System
+            </h1>
+            <p className="text-xl text-slate-600 dark:text-slate-300 mb-8 max-w-2xl">
+              A comprehensive design system built for Noon's supply chain operations. 
+              Consistent, accessible, and scalable components for our internal tools and applications.
+            </p>
+            <div className="flex gap-4">
+              <WeaverButton 
+                style="primary" 
+                size="lg" 
+                label="Get Started" 
+                showLeadingIcon={true}
+                leadingIcon={<ChevronRight className="w-5 h-5" />}
+                onClick={() => setCurrentPage('components')}
+              />
+              <WeaverButton 
+                style="outline-blue" 
+                size="lg" 
+                label="View Figma Library" 
+                showLeadingIcon={true}
+                leadingIcon={<ExternalLink className="w-5 h-5" />}
+                onClick={() => setCurrentPage('figma')}
+              />
+            </div>
           </div>
-          <h1 className="text-6xl md:text-7xl font-bold tracking-tight mb-6">
-            <span className="bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 bg-clip-text text-transparent">
-              Weaver
-            </span>
-            <br />
-            <span className="text-4xl md:text-5xl text-foreground/80">Design System</span>
-          </h1>
-          <p className="text-xl md:text-2xl text-muted-foreground mb-12 max-w-4xl mx-auto leading-relaxed">
-            The most comprehensive React component library built with modern design principles. 
-            Beautiful, accessible, and production-ready components for your next project.
-          </p>
-          <div className="flex flex-col sm:flex-row gap-6 justify-center mb-20">
-            <WeaverButton 
-              style="primary" 
-              size="lg" 
-              label="Explore Components" 
-              showLeadingIcon={true}
-              leadingIcon={<ChevronRight className="w-5 h-5" />}
-              onClick={() => setCurrentPage('components')}
-            />
-            <WeaverButton 
-              style="outline-blue" 
-              size="lg" 
-              label="View Documentation" 
-              showLeadingIcon={true}
-              leadingIcon={<ExternalLink className="w-5 h-5" />}
-              onClick={() => setCurrentPage('documentation')}
-            />
+          <div className="hidden lg:block ml-12">
+            <div className="w-80 h-80 bg-gradient-to-br from-blue-500 to-purple-600 rounded-2xl flex items-center justify-center shadow-2xl">
+              <Zap className="w-32 h-32 text-white" />
+            </div>
           </div>
         </div>
       </div>
 
-      {/* Features Section */}
-      <div className="py-20">
-        <div className="text-center mb-16">
-          <h2 className="text-4xl font-bold mb-4">Why Choose Weaver?</h2>
-          <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
-            Built for developers who demand excellence. Every component is crafted with attention to detail.
-          </p>
+      {/* Quick Stats */}
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-6 mb-12">
+        <div className="bg-white dark:bg-slate-800 rounded-xl p-6 border">
+          <div className="text-3xl font-bold text-blue-600 mb-2">15+</div>
+          <div className="text-sm text-slate-600 dark:text-slate-400">Components</div>
         </div>
-        
-        <div className="grid lg:grid-cols-3 gap-8 mb-20">
-          <div className="group p-8 rounded-2xl border bg-card/50 hover:bg-card hover:shadow-xl transition-all duration-500 hover:-translate-y-2">
-            <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-blue-500 to-blue-600 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300">
-              <Zap className="w-8 h-8 text-white" />
-            </div>
-            <h3 className="text-2xl font-bold mb-4">Lightning Fast</h3>
-            <p className="text-muted-foreground leading-relaxed">
-              Optimized for performance with tree-shaking, lazy loading, and minimal bundle size. 
-              Your users will love the speed.
-            </p>
-          </div>
-          
-          <div className="group p-8 rounded-2xl border bg-card/50 hover:bg-card hover:shadow-xl transition-all duration-500 hover:-translate-y-2">
-            <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-green-500 to-green-600 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300">
-              <Shield className="w-8 h-8 text-white" />
-            </div>
-            <h3 className="text-2xl font-bold mb-4">Accessible by Default</h3>
-            <p className="text-muted-foreground leading-relaxed">
-              WCAG 2.1 AA compliant components with keyboard navigation, screen reader support, 
-              and proper focus management.
-            </p>
-          </div>
-          
-          <div className="group p-8 rounded-2xl border bg-card/50 hover:bg-card hover:shadow-xl transition-all duration-500 hover:-translate-y-2">
-            <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-purple-500 to-purple-600 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300">
-              <Palette className="w-8 h-8 text-white" />
-            </div>
-            <h3 className="text-2xl font-bold mb-4">Fully Customizable</h3>
-            <p className="text-muted-foreground leading-relaxed">
-              Theme any component to match your brand. Multiple color schemes, 
-              dark mode support, and CSS custom properties.
-            </p>
-          </div>
+        <div className="bg-white dark:bg-slate-800 rounded-xl p-6 border">
+          <div className="text-3xl font-bold text-green-600 mb-2">100%</div>
+          <div className="text-sm text-slate-600 dark:text-slate-400">Accessible</div>
         </div>
+        <div className="bg-white dark:bg-slate-800 rounded-xl p-6 border">
+          <div className="text-3xl font-bold text-purple-600 mb-2">RTL</div>
+          <div className="text-sm text-slate-600 dark:text-slate-400">Language Support</div>
+        </div>
+        <div className="bg-white dark:bg-slate-800 rounded-xl p-6 border">
+          <div className="text-3xl font-bold text-orange-600 mb-2">v1.0</div>
+          <div className="text-sm text-slate-600 dark:text-slate-400">Production Ready</div>
+        </div>
+      </div>
 
-        {/* Stats Section */}
-        <div className="bg-gradient-to-r from-blue-50 to-purple-50 dark:from-blue-950/30 dark:to-purple-950/30 rounded-3xl p-12">
-          <div className="text-center mb-12">
-            <h3 className="text-3xl font-bold mb-4">Trusted by Developers</h3>
-            <p className="text-lg text-muted-foreground">Numbers that speak for themselves</p>
+      {/* Design System Overview */}
+      <div className="grid lg:grid-cols-2 gap-8 mb-12">
+        <div className="bg-white dark:bg-slate-800 rounded-xl p-8 border">
+          <h3 className="text-2xl font-bold mb-4">Design Tokens</h3>
+          <p className="text-slate-600 dark:text-slate-400 mb-6">
+            Consistent typography, colors, spacing, and other design elements across all our applications.
+          </p>
+          <WeaverButton 
+            style="primary" 
+            size="md" 
+            label="Explore Design Tokens" 
+            onClick={() => setCurrentPage('design-tokens')}
+          />
+        </div>
+        <div className="bg-white dark:bg-slate-800 rounded-xl p-8 border">
+          <h3 className="text-2xl font-bold mb-4">Component Library</h3>
+          <p className="text-slate-600 dark:text-slate-400 mb-6">
+            Reusable React components built with accessibility and performance in mind.
+          </p>
+          <WeaverButton 
+            style="primary" 
+            size="md" 
+            label="Browse Components" 
+            onClick={() => setCurrentPage('components')}
+          />
+        </div>
+      </div>
+
+      {/* Team Section */}
+      <div className="bg-slate-50 dark:bg-slate-800/50 rounded-xl p-8">
+        <div className="text-center">
+          <h3 className="text-2xl font-bold mb-4">Built by Noon Supply Chain Design Team</h3>
+          <p className="text-slate-600 dark:text-slate-400 mb-6 max-w-2xl mx-auto">
+            This design system is created and maintained by our internal design team to ensure 
+            consistency across all supply chain applications and tools.
+          </p>
+          <div className="flex justify-center gap-4">
+            <WeaverButton 
+              style="outline-blue" 
+              size="md" 
+              label="View Documentation" 
+              onClick={() => setCurrentPage('documentation')}
+            />
+            <WeaverButton 
+              style="outline-blue" 
+              size="md" 
+              label="See Examples" 
+              onClick={() => setCurrentPage('examples')}
+            />
           </div>
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
-            <div className="text-center">
-              <div className="text-5xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent mb-2">10+</div>
-              <div className="text-sm font-medium text-muted-foreground">Button Variants</div>
-            </div>
-            <div className="text-center">
-              <div className="text-5xl font-bold bg-gradient-to-r from-green-600 to-teal-600 bg-clip-text text-transparent mb-2">4</div>
-              <div className="text-sm font-medium text-muted-foreground">Size Options</div>
-            </div>
-            <div className="text-center">
-              <div className="text-5xl font-bold bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent mb-2">RTL</div>
-              <div className="text-sm font-medium text-muted-foreground">Language Support</div>
-            </div>
-            <div className="text-center">
-              <div className="text-5xl font-bold bg-gradient-to-r from-orange-600 to-red-600 bg-clip-text text-transparent mb-2">100%</div>
-              <div className="text-sm font-medium text-muted-foreground">Accessible</div>
-            </div>
+        </div>
+      </div>
+    </div>
+  );
+
+  const DesignTokensPage = () => (
+    <div className="max-w-7xl mx-auto">
+      <div className="mb-8">
+        <h1 className="text-4xl font-bold mb-4">Design Tokens</h1>
+        <p className="text-xl text-muted-foreground">
+          Consistent design elements used across all Noon Supply Chain applications.
+        </p>
+      </div>
+
+      {/* Typography */}
+      <div className="mb-12">
+        <h2 className="text-2xl font-bold mb-6">Typography</h2>
+        <div className="bg-white dark:bg-slate-800 rounded-xl border p-6">
+          <div className="space-y-6">
+            {designTokens.typography.map((type, index) => (
+              <div key={index} className="flex items-center justify-between py-4 border-b last:border-b-0">
+                <div className="flex-1">
+                  <div className="text-sm font-medium text-muted-foreground mb-2">{type.name}</div>
+                  <div className={`${type.class} text-slate-900 dark:text-white`}>{type.example}</div>
+                </div>
+                <div className="text-sm text-muted-foreground font-mono bg-slate-100 dark:bg-slate-700 px-3 py-1 rounded">
+                  {type.class}
+                </div>
+              </div>
+            ))}
           </div>
+        </div>
+      </div>
+
+      {/* Colors */}
+      <div className="mb-12">
+        <h2 className="text-2xl font-bold mb-6">Colors</h2>
+        <div className="bg-white dark:bg-slate-800 rounded-xl border p-6">
+          <div className="grid grid-cols-2 md:grid-cols-3 gap-6">
+            {designTokens.colors.map((color, index) => (
+              <div key={index} className="flex items-center space-x-4">
+                <div className={`w-12 h-12 rounded-lg ${color.class} shadow-sm`}></div>
+                <div>
+                  <div className="font-medium">{color.name}</div>
+                  <div className="text-sm text-muted-foreground font-mono">{color.value}</div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+
+      {/* Spacing */}
+      <div className="mb-12">
+        <h2 className="text-2xl font-bold mb-6">Spacing</h2>
+        <div className="bg-white dark:bg-slate-800 rounded-xl border p-6">
+          <div className="space-y-4">
+            {designTokens.spacing.map((space, index) => (
+              <div key={index} className="flex items-center space-x-4">
+                <div className="w-20 text-sm font-medium">{space.name}</div>
+                <div className="text-sm text-muted-foreground font-mono">{space.value}</div>
+                <div className={`${space.class} bg-blue-100 dark:bg-blue-900/30 rounded`}>
+                  <div className="w-4 h-4 bg-blue-500 rounded"></div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+
+      {/* Numbers */}
+      <div className="mb-12">
+        <h2 className="text-2xl font-bold mb-6">Numbers & Values</h2>
+        <div className="grid md:grid-cols-3 gap-6">
+          {designTokens.numbers.map((category, index) => (
+            <div key={index} className="bg-white dark:bg-slate-800 rounded-xl border p-6">
+              <h3 className="font-semibold mb-4">{category.name}</h3>
+              <div className="space-y-2">
+                {category.values.map((value, valueIndex) => (
+                  <div key={valueIndex} className="flex items-center justify-between">
+                    <span className="text-sm">{value}</span>
+                    <span className="text-xs text-muted-foreground font-mono">{value}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+          ))}
         </div>
       </div>
     </div>
@@ -929,18 +1064,108 @@ function App() {
     </div>
   );
 
+  const FigmaPage = () => (
+    <div className="max-w-7xl mx-auto">
+      <div className="mb-8">
+        <h1 className="text-4xl font-bold mb-4">Figma Library</h1>
+        <p className="text-xl text-muted-foreground">
+          Access our complete design system in Figma for your design workflows.
+        </p>
+      </div>
+
+      <div className="grid lg:grid-cols-2 gap-8 mb-12">
+        <div className="bg-white dark:bg-slate-800 rounded-xl border p-8">
+          <div className="flex items-center mb-6">
+            <div className="w-12 h-12 bg-purple-100 dark:bg-purple-900/30 rounded-lg flex items-center justify-center mr-4">
+              <ExternalLink className="w-6 h-6 text-purple-600 dark:text-purple-400" />
+            </div>
+            <div>
+              <h3 className="text-xl font-bold">Figma Library</h3>
+              <p className="text-muted-foreground">Complete design system</p>
+            </div>
+          </div>
+          <p className="text-slate-600 dark:text-slate-400 mb-6">
+            Access all components, design tokens, and guidelines in our Figma library. 
+            Perfect for designers working on Noon Supply Chain applications.
+          </p>
+          <WeaverButton 
+            style="primary" 
+            size="md" 
+            label="Open Figma Library" 
+            showLeadingIcon={true}
+            leadingIcon={<ExternalLink className="w-4 h-4" />}
+            onClick={() => window.open('https://figma.com', '_blank')}
+          />
+        </div>
+
+        <div className="bg-white dark:bg-slate-800 rounded-xl border p-8">
+          <div className="flex items-center mb-6">
+            <div className="w-12 h-12 bg-blue-100 dark:bg-blue-900/30 rounded-lg flex items-center justify-center mr-4">
+              <Download className="w-6 h-6 text-blue-600 dark:text-blue-400" />
+            </div>
+            <div>
+              <h3 className="text-xl font-bold">Download Assets</h3>
+              <p className="text-muted-foreground">Icons, illustrations, and more</p>
+            </div>
+          </div>
+          <p className="text-slate-600 dark:text-slate-400 mb-6">
+            Download individual assets, icons, and design resources for your projects.
+          </p>
+          <WeaverButton 
+            style="outline-blue" 
+            size="md" 
+            label="Download Assets" 
+            showLeadingIcon={true}
+            leadingIcon={<Download className="w-4 h-4" />}
+          />
+        </div>
+      </div>
+
+      <div className="bg-slate-50 dark:bg-slate-800/50 rounded-xl p-8">
+        <h3 className="text-2xl font-bold mb-4">Getting Started with Figma</h3>
+        <div className="grid md:grid-cols-3 gap-6">
+          <div className="text-center">
+            <div className="w-12 h-12 bg-blue-500 rounded-lg flex items-center justify-center mx-auto mb-4">
+              <span className="text-white font-bold">1</span>
+            </div>
+            <h4 className="font-semibold mb-2">Open Library</h4>
+            <p className="text-sm text-muted-foreground">Access our Figma library through the link above</p>
+          </div>
+          <div className="text-center">
+            <div className="w-12 h-12 bg-blue-500 rounded-lg flex items-center justify-center mx-auto mb-4">
+              <span className="text-white font-bold">2</span>
+            </div>
+            <h4 className="font-semibold mb-2">Copy Components</h4>
+            <p className="text-sm text-muted-foreground">Copy any component or design token to your project</p>
+          </div>
+          <div className="text-center">
+            <div className="w-12 h-12 bg-blue-500 rounded-lg flex items-center justify-center mx-auto mb-4">
+              <span className="text-white font-bold">3</span>
+            </div>
+            <h4 className="font-semibold mb-2">Start Designing</h4>
+            <p className="text-sm text-muted-foreground">Use consistent components in your designs</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+
   const renderCurrentPage = () => {
     switch (currentPage) {
       case 'home':
         return <HomePage />;
       case 'components':
         return <ComponentsPage />;
+      case 'design-tokens':
+        return <DesignTokensPage />;
       case 'button-demo':
         return <ButtonDemoPage />;
       case 'documentation':
         return <DocumentationPage />;
       case 'examples':
         return <ExamplesPage />;
+      case 'figma':
+        return <FigmaPage />;
       default:
         return <HomePage />;
     }
@@ -948,164 +1173,144 @@ function App() {
 
   return (
     <div className="min-h-screen bg-background">
-      {/* Header */}
-      <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-        <div className="container flex h-16 max-w-screen-2xl items-center px-4">
-          <div className="mr-4 flex items-center">
+      {/* Sidebar */}
+      <div className={`fixed inset-y-0 left-0 z-50 w-64 bg-white dark:bg-slate-900 border-r transform transition-transform duration-300 ${
+        sidebarOpen ? 'translate-x-0' : '-translate-x-full'
+      } lg:translate-x-0`}>
+        <div className="flex flex-col h-full">
+          {/* Sidebar Header */}
+          <div className="flex items-center justify-between p-6 border-b">
             <button 
-              className="mr-6 flex items-center space-x-2"
+              className="flex items-center space-x-3"
               onClick={() => setCurrentPage('home')}
             >
               <div className="flex items-center justify-center w-8 h-8 rounded-lg bg-gradient-to-br from-blue-600 to-blue-800 shadow-lg">
                 <Zap className="w-5 h-5 text-white" />
               </div>
-              <span className="hidden font-bold sm:inline-block text-xl">Weaver</span>
+              <span className="font-bold text-xl">Weaver</span>
             </button>
-            
-            {/* Desktop Navigation */}
-            <nav className="hidden md:flex items-center gap-6 text-sm">
-              <button 
-                onClick={() => setCurrentPage('home')}
-                className={`transition-colors hover:text-foreground/80 ${
-                  currentPage === 'home' ? 'text-foreground' : 'text-foreground/60'
-                }`}
-              >
-                Home
-              </button>
-              <button 
-                onClick={() => setCurrentPage('components')}
-                className={`transition-colors hover:text-foreground/80 ${
-                  currentPage === 'components' ? 'text-foreground' : 'text-foreground/60'
-                }`}
-              >
-                Components
-              </button>
-              <button 
-                onClick={() => setCurrentPage('documentation')}
-                className={`transition-colors hover:text-foreground/80 ${
-                  currentPage === 'documentation' ? 'text-foreground' : 'text-foreground/60'
-                }`}
-              >
-                Documentation
-              </button>
-              <button 
-                onClick={() => setCurrentPage('examples')}
-                className={`transition-colors hover:text-foreground/80 ${
-                  currentPage === 'examples' ? 'text-foreground' : 'text-foreground/60'
-                }`}
-              >
-                Examples
-              </button>
-            </nav>
+            <button
+              onClick={() => setSidebarOpen(!sidebarOpen)}
+              className="lg:hidden p-2 rounded-md hover:bg-slate-100 dark:hover:bg-slate-800"
+            >
+              <X className="w-5 h-5" />
+            </button>
           </div>
-          
-          <div className="flex flex-1 items-center justify-between space-x-2 md:justify-end">
-            <div className="flex items-center space-x-2">
-              <span className="inline-flex items-center rounded-md border px-2.5 py-0.5 text-xs font-semibold transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 border-transparent bg-primary text-primary-foreground hover:bg-primary/80">
-                v1.0.0
-              </span>
-              <span className="inline-flex items-center rounded-md border px-2.5 py-0.5 text-xs font-semibold transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 border-transparent bg-green-100 text-green-800 hover:bg-green-200">
-                Production Ready
-              </span>
-            </div>
-            
-            {/* Dark Mode Toggle */}
-            <button
-              onClick={() => setIsDarkMode(!isDarkMode)}
-              className="flex items-center justify-center w-10 h-10 rounded-md border bg-background hover:bg-accent transition-colors"
-            >
-              {isDarkMode ? <Moon className="w-4 h-4" /> : <Sun className="w-4 h-4" />}
-            </button>
-            
-            {/* Color Theme Switcher */}
-            <div className="relative ml-2">
+
+          {/* Navigation */}
+          <nav className="flex-1 p-4 space-y-2">
+            {navigationItems.map((item) => (
               <button
-                onClick={() => setShowColorMenu(!showColorMenu)}
-                className="flex items-center space-x-2 px-3 py-2 rounded-md border bg-background hover:bg-accent transition-colors"
+                key={item.id}
+                onClick={() => setCurrentPage(item.id)}
+                className={`w-full flex items-center space-x-3 px-4 py-3 rounded-lg text-left transition-colors ${
+                  currentPage === item.id 
+                    ? 'bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300' 
+                    : 'hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-300'
+                }`}
               >
-                <Palette className="w-4 h-4" />
-                <span className="text-sm capitalize">{colorTheme}</span>
+                {item.icon}
+                <span className="font-medium">{item.name}</span>
               </button>
-              
-              {showColorMenu && (
-                <div className="absolute right-0 mt-2 w-48 bg-popover border rounded-md shadow-lg z-50">
-                  <div className="p-3">
-                    <div className="text-xs font-medium text-muted-foreground mb-3">Color Theme</div>
-                    <div className="grid grid-cols-2 gap-2">
-                      {colorThemes.map((themeOption) => (
-                        <button
-                          key={themeOption.id}
-                          onClick={() => { setColorTheme(themeOption.id); setShowColorMenu(false); }}
-                          className={`flex items-center space-x-2 px-3 py-2 text-sm rounded-md hover:bg-accent transition-colors ${
-                            colorTheme === themeOption.id ? 'bg-accent' : ''
-                          }`}
-                        >
-                          <div className={`w-4 h-4 rounded-full ${themeOption.color} ring-2 ${themeOption.ring} ring-offset-2`} />
-                          <span>{themeOption.name}</span>
-                          {colorTheme === themeOption.id && <Check className="w-4 h-4 ml-auto" />}
-                        </button>
-                      ))}
-                    </div>
-                  </div>
-                </div>
-              )}
+            ))}
+          </nav>
+
+          {/* Sidebar Footer */}
+          <div className="p-4 border-t">
+            <div className="flex items-center justify-between mb-4">
+              <span className="text-sm font-medium text-slate-600 dark:text-slate-400">Theme</span>
+              <button
+                onClick={() => setIsDarkMode(!isDarkMode)}
+                className="p-2 rounded-md hover:bg-slate-100 dark:hover:bg-slate-800"
+              >
+                {isDarkMode ? <Moon className="w-4 h-4" /> : <Sun className="w-4 h-4" />}
+              </button>
             </div>
-            
-            {/* Mobile Menu Button */}
-            <button
-              onClick={() => setShowMobileMenu(!showMobileMenu)}
-              className="md:hidden ml-2 p-2 rounded-md hover:bg-accent"
-            >
-              {showMobileMenu ? <CloseIcon className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
-            </button>
+            <div className="text-xs text-slate-500 dark:text-slate-400">
+              Noon Supply Chain Design System
+            </div>
           </div>
         </div>
-        
-        {/* Mobile Menu */}
-        {showMobileMenu && (
-          <div className="md:hidden border-t bg-background">
-            <div className="px-4 py-2 space-y-1">
-              <button 
-                onClick={() => { setCurrentPage('home'); setShowMobileMenu(false); }}
-                className={`w-full text-left px-3 py-2 rounded-md text-sm ${
-                  currentPage === 'home' ? 'bg-accent' : 'hover:bg-accent'
-                }`}
-              >
-                Home
-              </button>
-              <button 
-                onClick={() => { setCurrentPage('components'); setShowMobileMenu(false); }}
-                className={`w-full text-left px-3 py-2 rounded-md text-sm ${
-                  currentPage === 'components' ? 'bg-accent' : 'hover:bg-accent'
-                }`}
-              >
-                Components
-              </button>
-              <button 
-                onClick={() => { setCurrentPage('documentation'); setShowMobileMenu(false); }}
-                className={`w-full text-left px-3 py-2 rounded-md text-sm ${
-                  currentPage === 'documentation' ? 'bg-accent' : 'hover:bg-accent'
-                }`}
-              >
-                Documentation
-              </button>
-              <button 
-                onClick={() => { setCurrentPage('examples'); setShowMobileMenu(false); }}
-                className={`w-full text-left px-3 py-2 rounded-md text-sm ${
-                  currentPage === 'examples' ? 'bg-accent' : 'hover:bg-accent'
-                }`}
-              >
-                Examples
-              </button>
-            </div>
-          </div>
-        )}
-      </header>
+      </div>
+
+      {/* Overlay for mobile */}
+      {sidebarOpen && (
+        <div 
+          className="fixed inset-0 bg-black bg-opacity-50 z-40 lg:hidden"
+          onClick={() => setSidebarOpen(false)}
+        />
+      )}
 
       {/* Main Content */}
-      <main className="container mx-auto px-6 py-8">
-        {renderCurrentPage()}
-      </main>
+      <div className={`transition-all duration-300 ${sidebarOpen ? 'lg:ml-64' : 'lg:ml-0'}`}>
+        {/* Top Header */}
+        <header className="sticky top-0 z-40 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+          <div className="flex h-16 items-center justify-between px-6">
+            <div className="flex items-center space-x-4">
+              <button
+                onClick={() => setSidebarOpen(!sidebarOpen)}
+                className="lg:hidden p-2 rounded-md hover:bg-slate-100 dark:hover:bg-slate-800"
+              >
+                <Menu className="w-5 h-5" />
+              </button>
+              <div className="hidden sm:block">
+                <h1 className="text-xl font-semibold">
+                  {navigationItems.find(item => item.id === currentPage)?.name || 'Weaver Design System'}
+                </h1>
+              </div>
+            </div>
+            
+            <div className="flex items-center space-x-4">
+              <div className="flex items-center space-x-2">
+                <span className="inline-flex items-center rounded-md border px-2.5 py-0.5 text-xs font-semibold transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 border-transparent bg-primary text-primary-foreground hover:bg-primary/80">
+                  v1.0.0
+                </span>
+                <span className="inline-flex items-center rounded-md border px-2.5 py-0.5 text-xs font-semibold transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 border-transparent bg-green-100 text-green-800 hover:bg-green-200">
+                  Production Ready
+                </span>
+              </div>
+              
+              {/* Color Theme Switcher */}
+              <div className="relative">
+                <button
+                  onClick={() => setShowColorMenu(!showColorMenu)}
+                  className="flex items-center space-x-2 px-3 py-2 rounded-md border bg-background hover:bg-accent transition-colors"
+                >
+                  <Palette className="w-4 h-4" />
+                  <span className="text-sm capitalize">{colorTheme}</span>
+                </button>
+                
+                {showColorMenu && (
+                  <div className="absolute right-0 mt-2 w-48 bg-popover border rounded-md shadow-lg z-50">
+                    <div className="p-3">
+                      <div className="text-xs font-medium text-muted-foreground mb-3">Color Theme</div>
+                      <div className="grid grid-cols-2 gap-2">
+                        {colorThemes.map((themeOption) => (
+                          <button
+                            key={themeOption.id}
+                            onClick={() => { setColorTheme(themeOption.id); setShowColorMenu(false); }}
+                            className={`flex items-center space-x-2 px-3 py-2 text-sm rounded-md hover:bg-accent transition-colors ${
+                              colorTheme === themeOption.id ? 'bg-accent' : ''
+                            }`}
+                          >
+                            <div className={`w-4 h-4 rounded-full ${themeOption.color} ring-2 ${themeOption.ring} ring-offset-2`} />
+                            <span>{themeOption.name}</span>
+                            {colorTheme === themeOption.id && <Check className="w-4 h-4 ml-auto" />}
+                          </button>
+                        ))}
+                      </div>
+                    </div>
+                  </div>
+                )}
+              </div>
+            </div>
+          </div>
+        </header>
+
+        {/* Main Content */}
+        <main className="p-6">
+          {renderCurrentPage()}
+        </main>
 
       {/* Footer */}
       <footer className="border-t bg-muted/50 mt-16">
